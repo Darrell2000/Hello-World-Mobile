@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from "react-native";
 
-export default function FilmsScreen() {
+export default function SpaceshipsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Films Screen</Text>
+      <Text style={styles.text}>Spaceships Screen</Text>
     </View>
   );
 }
