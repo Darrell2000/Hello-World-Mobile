@@ -1,24 +1,55 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function TodoScreen() {
+  const [task, setTask] = useState("");
+  const [tasks, setTasks] = useState(["Hello", "Temp", "Test", "test1"]);
+
+  const addTask = () => {
+    if (task.trim() === "") return;
+    setTasks([...tasks, task]);
+    setTask("");
+  };
+
+  const deleteTask = (index: number) => {
+    const newTasks = tasks.filter((_, i) => i !== index);
+    setTasks(newTasks);
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Today’s tasks</Text>
+      <Text style={styles.title}>Today's tasks</Text>
 
-      <View style={styles.taskBox}>
-        <View style={styles.square} />
-        <Text style={styles.taskText}>Task 1</Text>
-        <View style={styles.circle} />
-      </View>
+      {tasks.map((item, index) => (
+        <View key={index} style={styles.taskBox}>
+          <View style={styles.square} />
+          <Text style={styles.taskText}>{item}</Text>
 
-      <View style={styles.taskBox}>
-        <View style={styles.square} />
-        <Text style={styles.taskText}>Task 2</Text>
-        <View style={styles.circle} />
-      </View>
+          <TouchableOpacity onPress={() => deleteTask(index)}>
+            <View style={styles.circle} />
+          </TouchableOpacity>
+        </View>
+      ))}
 
-      <View style={styles.addButton}>
-        <Text style={styles.plus}>+</Text>
+      <View style={styles.bottomWrapper}>
+        <TextInput
+          style={styles.input}
+          placeholder="Write a task"
+          value={task}
+          onChangeText={setTask}
+        />
+
+        <TouchableOpacity onPress={addTask}>
+          <View style={styles.addButton}>
+            <Text style={styles.plus}>+</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -27,59 +58,67 @@ export default function TodoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E9F2F1",
-    paddingTop: 120,
-    paddingHorizontal: 35,
+    backgroundColor: "#d9dddd",
+    paddingTop: 100,
+    paddingHorizontal: 25,
   },
   title: {
-    fontSize: 34,
+    fontSize: 26,
     fontWeight: "bold",
-    marginBottom: 45,
+    marginBottom: 30,
   },
   taskBox: {
-    backgroundColor: "white",
-    height: 80,
+    backgroundColor: "#f1f1f1",
+    padding: 20,
     borderRadius: 10,
     marginBottom: 25,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 25,
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 10,
-    elevation: 3,
   },
   square: {
-    width: 35,
-    height: 35,
-    backgroundColor: "#A7DCE7",
-    borderRadius: 6,
-    marginRight: 25,
+    width: 28,
+    height: 28,
+    backgroundColor: "#8bbbd0",
+    borderRadius: 5,
+    marginRight: 20,
   },
   taskText: {
     flex: 1,
-    fontSize: 20,
+    fontSize: 16,
+    fontWeight: "600",
   },
   circle: {
-    width: 20,
-    height: 20,
+    width: 18,
+    height: 18,
+    borderColor: "#5a91a3",
+    borderWidth: 3,
     borderRadius: 10,
-    borderWidth: 4,
-    borderColor: "#4A9DB1",
   },
-  addButton: {
+  bottomWrapper: {
     position: "absolute",
-    right: -45,
-    bottom: 140,
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: "#2D9CDB",
-    justifyContent: "center",
+    bottom: 40,
+    left: 25,
+    right: 25,
+    flexDirection: "row",
     alignItems: "center",
   },
+  input: {
+    flex: 1,
+    backgroundColor: "#f1f1f1",
+    padding: 15,
+    borderRadius: 30,
+    textAlign: "center",
+  },
+  addButton: {
+    width: 60,
+    height: 60,
+    backgroundColor: "#f1f1f1",
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 15,
+  },
   plus: {
-    color: "white",
-    fontSize: 50,
+    fontSize: 36,
   },
 });
